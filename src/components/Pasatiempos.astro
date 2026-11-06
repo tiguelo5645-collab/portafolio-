@@ -30,13 +30,8 @@ const colores = [
 
     <ul class="pasatiempos" role="list">
       <!-- Fútbol: dominar el balón -->
-      <li class="tarjeta tarjeta--futbol revelar">
-        <h3 class="tarjeta__titulo">
-          <span class="tarjeta__icono" aria-hidden="true">
-            ⚽
-          </span>
-          {pasatiempos.futbol.titulo}
-        </h3>
+      <li class="tarjeta revelar">
+        <h3 class="tarjeta__titulo">{pasatiempos.futbol.titulo}</h3>
         <p class="tarjeta__texto">{pasatiempos.futbol.texto}</p>
 
         <div class="juego requiere-js" data-dominadas>
@@ -44,7 +39,7 @@ const colores = [
             <span class="dominadas__balon" data-balon></span>
             <span class="dominadas__sombra" data-sombra></span>
           </div>
-          <button type="button" class="boton boton--claro" data-toque>
+          <button type="button" class="boton" data-toque>
             Dar un toque
           </button>
           <p class="dominadas__marcador" role="status" aria-live="polite">
@@ -59,13 +54,8 @@ const colores = [
       </li>
 
       <!-- Dibujo: un lienzo pequeño -->
-      <li class="tarjeta tarjeta--dibujo revelar">
-        <h3 class="tarjeta__titulo">
-          <span class="tarjeta__icono" aria-hidden="true">
-            ✏️
-          </span>
-          {pasatiempos.dibujo.titulo}
-        </h3>
+      <li class="tarjeta revelar">
+        <h3 class="tarjeta__titulo">{pasatiempos.dibujo.titulo}</h3>
         <p class="tarjeta__texto">{pasatiempos.dibujo.texto}</p>
 
         <div class="juego requiere-js" data-dibujo>
@@ -97,13 +87,8 @@ const colores = [
       </li>
 
       <!-- Guitarra: seis cuerdas que suenan -->
-      <li class="tarjeta tarjeta--guitarra revelar">
-        <h3 class="tarjeta__titulo">
-          <span class="tarjeta__icono" aria-hidden="true">
-            🎸
-          </span>
-          {pasatiempos.guitarra.titulo}
-        </h3>
+      <li class="tarjeta revelar">
+        <h3 class="tarjeta__titulo">{pasatiempos.guitarra.titulo}</h3>
         <p class="tarjeta__texto">{pasatiempos.guitarra.texto}</p>
 
         <div class="juego requiere-js" data-guitarra>
@@ -121,7 +106,7 @@ const colores = [
             ))}
             <span class="mastil__boca" aria-hidden="true"></span>
           </div>
-          <button type="button" class="boton boton--claro" data-rasguear>
+          <button type="button" class="boton" data-rasguear>
             Rasguear
           </button>
           <p class="guitarra__ayuda">Toca una cuerda o arrastra sobre ellas. Sube el volumen.</p>
@@ -143,33 +128,26 @@ const colores = [
   .tarjeta {
     display: flex;
     flex-direction: column;
-    gap: var(--e-3);
+    gap: var(--e-2);
     padding: var(--e-6);
+    border: 1px solid var(--linea);
     border-radius: var(--radio-tarjeta);
     background: var(--superficie);
   }
 
   .tarjeta__titulo {
-    display: flex;
-    align-items: center;
-    gap: var(--e-3);
-    font-size: var(--t-3);
-    font-stretch: 115%;
-    font-weight: 850;
-  }
-
-  .tarjeta__icono {
-    display: grid;
-    place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    background: var(--fondo);
-    font-size: 1.35rem;
+    font-size: var(--t-2);
+    font-stretch: 110%;
+    font-weight: 750;
   }
 
   .tarjeta__texto {
     max-width: 36ch;
+    color: var(--tinta-suave);
+  }
+
+  .juego .boton {
+    justify-self: start;
   }
 
   .juego {
@@ -179,47 +157,25 @@ const colores = [
     padding-top: var(--e-4);
   }
 
-  .boton--claro {
-    justify-self: start;
-    border-color: currentColor;
-    color: inherit;
-  }
-
   .boton--pequeno {
     min-height: 2.75rem;
     padding: var(--e-2) var(--e-4);
   }
 
-  /* ---------- Fútbol: verde cancha en ambos temas ---------- */
-  .tarjeta--futbol {
-    background: repeating-linear-gradient(0deg, var(--cancha) 0 2.5rem, var(--cancha-2) 2.5rem 5rem);
-    color: var(--hielo);
-  }
-
-  .tarjeta--futbol .tarjeta__icono {
-    background: color-mix(in srgb, var(--hielo) 18%, transparent);
-  }
-
-  .tarjeta--futbol :focus-visible {
-    outline-color: var(--hielo);
-  }
-
-  .tarjeta--futbol .boton--claro:hover {
-    background: var(--hielo);
-    color: var(--cancha);
-    border-color: var(--hielo);
-  }
+  /* ---------- Fútbol: un pedazo de cancha con el balón ---------- */
 
   .dominadas__campo {
     position: relative;
-    height: 9rem;
-    border-bottom: 2px solid var(--cal);
+    height: 10rem;
+    border-radius: var(--radio-imagen);
+    background: repeating-linear-gradient(0deg, var(--cancha) 0 1.25rem, var(--cancha-2) 1.25rem 2.5rem);
+    overflow: hidden;
   }
 
   .dominadas__balon {
     position: absolute;
     left: 50%;
-    bottom: 0;
+    bottom: 0.9rem;
     width: 3rem;
     height: 3rem;
     margin-left: -1.5rem;
@@ -237,7 +193,7 @@ const colores = [
   .dominadas__sombra {
     position: absolute;
     left: 50%;
-    bottom: -4px;
+    bottom: 0.6rem;
     width: 3rem;
     height: 0.5rem;
     margin-left: -1.5rem;
@@ -253,10 +209,15 @@ const colores = [
     font-variant-numeric: tabular-nums;
   }
 
+  .dominadas__marcador {
+    color: var(--tinta-suave);
+    font-size: 0.9375rem;
+  }
+
   .dominadas__marcador strong {
-    font-size: 1.5rem;
-    font-weight: 900;
-    font-stretch: 125%;
+    color: var(--tinta);
+    font-size: 1.25rem;
+    font-weight: 800;
   }
 
   /* ---------- Dibujo ---------- */
@@ -306,27 +267,7 @@ const colores = [
     box-shadow: 0 0 0 2px var(--tinta);
   }
 
-  /* ---------- Guitarra: azul noche en ambos temas ---------- */
-  /* Escenario de noche: un foco azul arriba para que la tarjeta se distinga también en el tema Noche. */
-  .tarjeta--guitarra {
-    background: radial-gradient(120% 80% at 50% 0%, #1d3a8f, transparent 70%), var(--marino);
-    border: 1px solid color-mix(in srgb, var(--azul-claro) 35%, transparent);
-    color: var(--hielo);
-  }
-
-  .tarjeta--guitarra .tarjeta__icono {
-    background: color-mix(in srgb, var(--hielo) 14%, transparent);
-  }
-
-  .tarjeta--guitarra :focus-visible {
-    outline-color: var(--verde-vivo);
-  }
-
-  .tarjeta--guitarra .boton--claro:hover {
-    background: var(--hielo);
-    color: var(--azul-noche);
-    border-color: var(--hielo);
-  }
+  /* ---------- Guitarra ---------- */
 
   /* El mástil: madera oscura, la boca de la guitarra detrás y seis cuerdas que son botones. */
   .mastil {
@@ -387,7 +328,7 @@ const colores = [
   }
 
   .cuerda.sonando .cuerda__linea {
-    background: linear-gradient(var(--verde-vivo), #1d9f6f);
+    background: linear-gradient(#f3e3c3, #c9a46a);
     animation: vibrar 420ms linear;
   }
 
@@ -409,7 +350,7 @@ const colores = [
 
   .guitarra__ayuda {
     font-size: var(--t-0);
-    color: var(--suave-sobre-oscuro);
+    color: var(--tinta-suave);
   }
 
   @media (prefers-reduced-motion: reduce) {

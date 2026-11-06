@@ -65,7 +65,7 @@ import { ahoraMismo, historia } from '@/data/perfil';
     aspect-ratio: 3 / 4;
     object-fit: cover;
     border-radius: var(--radio-imagen);
-    box-shadow: 12px 12px 0 var(--azul);
+    box-shadow: 8px 8px 0 color-mix(in srgb, var(--accion) 80%, transparent);
   }
 
   .sobre__texto {
@@ -82,17 +82,14 @@ import { ahoraMismo, historia } from '@/data/perfil';
     font-weight: 500;
   }
 
-  /* Lo único "en vivo" del sitio va en verde, igual en Día y en Noche (azul noche sobre verde: 9,3:1). */
+  /* Lo que está «en vivo»: una raya verde a la izquierda basta para marcarlo. */
   .ahora {
     grid-area: ahora;
     padding: var(--e-5);
-    background: var(--verde-vivo);
-    border-radius: var(--radio-tarjeta);
-    color: var(--azul-noche);
-  }
-
-  .ahora .ahora__fecha {
-    color: var(--azul-noche);
+    border: 1px solid var(--linea);
+    border-left: 3px solid var(--resalte);
+    border-radius: var(--radio-imagen);
+    background: var(--superficie);
   }
 
   .ahora__titulo {

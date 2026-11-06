@@ -77,14 +77,14 @@ const anio = new Date().getFullYear();
     position: relative;
     overflow: hidden;
     margin-top: var(--e-8);
-    padding-block: var(--e-9) var(--e-6);
+    padding-block: var(--e-8) var(--e-6);
     background: var(--azul-noche);
     color: var(--hielo);
     font-size: 0.9375rem;
   }
 
   .pie__cancha {
-    --linea: color-mix(in srgb, var(--cal) 14%, transparent);
+    --linea: color-mix(in srgb, var(--cal) 8%, transparent);
     position: absolute;
     inset: 0;
     background:
@@ -108,29 +108,27 @@ const anio = new Date().getFullYear();
     display: flex;
     align-items: center;
     gap: var(--e-3);
-    font-size: var(--t-4);
-    font-weight: 900;
-    font-stretch: 125%;
+    font-size: var(--t-2);
+    font-weight: 800;
+    font-stretch: 110%;
     line-height: 1;
-    text-transform: uppercase;
   }
 
   .pie__dorsal {
     display: grid;
     place-items: center;
     flex-shrink: 0;
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
     background: var(--azul);
-    border: 3px solid var(--cal);
-    font-size: 1.125rem;
+    font-size: 0.8125rem;
   }
 
   .pie__lema {
-    margin-top: var(--e-4);
-    font-size: var(--t-2);
-    font-weight: 600;
+    margin-top: var(--e-3);
+    font-size: 1rem;
+    font-weight: 400;
     color: var(--suave-sobre-oscuro);
     max-width: 28ch;
   }
@@ -156,16 +154,13 @@ const anio = new Date().getFullYear();
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-    font-weight: 600;
+    font-weight: 500;
     text-decoration: none;
-    transition:
-      color var(--dur-corta) var(--curva),
-      translate var(--dur-media) var(--curva-rebote);
+    transition: color var(--dur-corta) var(--curva);
   }
 
   .pie__columna a:hover {
     color: var(--verde-vivo);
-    translate: 4px 0;
   }
 
   .pie__base {

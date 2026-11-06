@@ -189,7 +189,7 @@ const enlaces = [
     gap: var(--e-4);
     min-height: 4.5rem;
     padding: var(--e-3) var(--e-5) var(--e-3) var(--e-3);
-    border: var(--trazo) solid transparent;
+    border: 1px solid var(--linea);
     border-radius: var(--radio-tarjeta);
     background: var(--superficie);
     text-decoration: none;
@@ -200,28 +200,22 @@ const enlaces = [
   }
 
   .red:hover {
-    transform: translateY(-3px);
-    border-color: var(--color-red);
-    box-shadow: 0 14px 28px -16px var(--color-red);
+    border-color: color-mix(in srgb, var(--accion) 45%, transparent);
   }
 
   .red:active {
-    transform: translateY(0) scale(0.99);
+    transform: scale(0.99);
   }
 
   .red__icono {
     display: grid;
     place-items: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 14px;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 12px;
     background: var(--color-red);
     color: var(--color-icono);
     transition: transform var(--dur-media) var(--curva-rebote);
-  }
-
-  .red:hover .red__icono {
-    transform: rotate(-8deg) scale(1.08);
   }
 
   .red__texto {
@@ -257,6 +251,7 @@ const enlaces = [
     display: grid;
     gap: var(--e-5);
     padding: var(--e-6);
+    border: 1px solid var(--linea);
     border-radius: var(--radio-tarjeta);
     background: var(--superficie);
   }
@@ -281,7 +276,7 @@ const enlaces = [
     width: 100%;
     min-height: 2.75rem;
     padding: var(--e-3) var(--e-4);
-    border: var(--trazo) solid var(--tinta);
+    border: 1px solid color-mix(in srgb, var(--tinta) 35%, transparent);
     border-radius: var(--radio-imagen);
     background: var(--fondo);
     line-height: 1.5;
@@ -298,7 +293,7 @@ const enlaces = [
 
   .campo [aria-invalid='true'] {
     border-color: var(--error);
-    border-width: 3px;
+    border-width: 2px;
   }
 
   .campo__ayuda {
