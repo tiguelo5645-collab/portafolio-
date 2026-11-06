@@ -1,34 +1,42 @@
 /*
  * Tokens de diseño: Cancha.
- * Azul cobalto como color principal y verde cancha como segundo color. Sin blanco ni negro puros.
+ * Azul cobalto como color principal y verde de pasto como segundo color, en tono sobrio. Sin blanco ni negro puros.
  * Fuente única de verdad para color, tipografía, espaciado y movimiento.
  * Justificación de cada valor: docs/design-plan.md
  */
 
 :root {
-  /* Paleta base (en componentes, usar los roles de abajo) */
-  --azul: #1d3fe0;
-  --azul-claro: #7c9bff;
-  --azul-noche: #081634;
-  --marino: #0a1f44;
-  --hielo: #e6eeff;
-  --hielo-2: #c9daff;
-  --verde: #047a4a;
-  --verde-vivo: #34d399;
-  --cancha: #0b7a4b;
-  --cancha-2: #0a6e44;
-  --cal: #d4fbe8;
+  /*
+   * Paleta base (en componentes, usar los roles de abajo).
+   * Azul cobalto sobrio y verde de pasto real sobre fondos casi neutros: el color se reserva
+   * para lo que importa (acciones, la cancha, lo que está «en vivo»).
+   */
+  --azul: #2645c8;
+  --azul-claro: #94a9ff;
+  --azul-noche: #0e1524;
+  --marino: #152038;
+  --hielo: #f5f7fa;
+  --hielo-2: #e9edf4;
+  --verde: #1d7448;
+  --verde-vivo: #62c28f;
+  --cancha: #2e7a4e;
+  --cancha-2: #2a7149;
+  --cal: #eef6ef;
+  /* Texto secundario sobre fondos oscuros fijos (pie, marcador, guitarra). */
+  --suave-sobre-oscuro: #aeb8cc;
 
   /* Roles: Día (claro) */
   --fondo: var(--hielo);
   --superficie: var(--hielo-2);
+  --linea: color-mix(in srgb, var(--tinta) 12%, transparent);
   --tinta: var(--marino);
-  --tinta-suave: #34507f;
+  --tinta-suave: #4a5670;
   --accion: var(--azul);
   --sobre-accion: var(--hielo);
   --resalte: var(--verde);
   --exito: var(--verde);
   --error: #b3261e;
+  --sombra: 0 1px 2px rgb(21 32 56 / 0.06), 0 8px 24px -12px rgb(21 32 56 / 0.18);
   color-scheme: light;
 
   /* Tipografía */
@@ -81,28 +89,30 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema='dia']) {
     --fondo: var(--azul-noche);
-    --superficie: #10265a;
-    --tinta: var(--hielo);
-    --tinta-suave: #9fb4e0;
+    --superficie: #162036;
+    --tinta: #e8ecf3;
+    --tinta-suave: #a2acc0;
     --accion: var(--azul-claro);
     --sobre-accion: var(--azul-noche);
     --resalte: var(--verde-vivo);
     --exito: var(--verde-vivo);
     --error: #ff8a80;
+    --sombra: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 28px -14px rgb(0 0 0 / 0.6);
     color-scheme: dark;
   }
 }
 
 :root[data-tema='noche'] {
   --fondo: var(--azul-noche);
-  --superficie: #10265a;
-  --tinta: var(--hielo);
-  --tinta-suave: #9fb4e0;
+  --superficie: #162036;
+  --tinta: #e8ecf3;
+  --tinta-suave: #a2acc0;
   --accion: var(--azul-claro);
   --sobre-accion: var(--azul-noche);
   --resalte: var(--verde-vivo);
   --exito: var(--verde-vivo);
   --error: #ff8a80;
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.3), 0 10px 28px -14px rgb(0 0 0 / 0.6);
   color-scheme: dark;
 }
 

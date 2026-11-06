@@ -76,7 +76,7 @@ test('el tema Noche se aplica y se recuerda', async ({ page }) => {
   await expect(noche).toHaveAttribute('aria-pressed', 'true');
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-tema', 'noche');
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(8, 22, 52)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(14, 21, 36)');
 });
 
 test('el menú móvil atrapa el foco y se cierra con Escape', async ({ page, isMobile }) => {
