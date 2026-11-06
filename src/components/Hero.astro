@@ -3,7 +3,11 @@ import Cancha from '@/components/Cancha.astro';
 import { perfil } from '@/data/perfil';
 import { obtenerProyectos } from '@/lib/proyectos';
 
-const palabras = ['Miguel', 'Ángel', 'Pantoja', 'Guerra'];
+/** El nombre en dos líneas: nombres en tinta, apellidos en azul (el nombre en la espalda de la camiseta). */
+const lineas = [
+  { texto: 'Miguel Ángel', clase: '' },
+  { texto: 'Pantoja Guerra', clase: 'hero__linea--apellidos' },
+];
 
 /** Marcador: solo datos comprobables, sacados del perfil y de los proyectos publicados. */
 const marcador = [
@@ -19,11 +23,10 @@ const marcador = [
       <p class="hero__rol">
         {perfil.rol} · {perfil.ciudad}
       </p>
-      <!-- El ancho de la tipografía responde al puntero (eje wdth de Archivo). Ver script. -->
-      <h1 id="hero-titulo" class="hero__nombre" data-nombre-elastico>
-        {palabras.map((p, i) => (
-          <span class="hero__palabra" style={`--i:${i}`}>
-            {p}
+      <h1 id="hero-titulo" class="hero__nombre">
+        {lineas.map((l, i) => (
+          <span class:list={['hero__linea', l.clase]} style={`--i:${i}`}>
+            {l.texto}
           </span>
         ))}
       </h1>
@@ -31,15 +34,17 @@ const marcador = [
       <p class="hero__disponible">{perfil.disponibilidad}</p>
       <div class="hero__acciones">
         <a class="boton boton--principal" href="#contacto">
-          Escríbeme
+          {' '}
+          Escríbeme{' '}
         </a>
         <a class="boton" href="/cv">
-          Ver mi CV
+          {' '}
+          Ver mi CV{' '}
         </a>
       </div>
       <dl class="marcador">
-        {marcador.map((m, i) => (
-          <div class="marcador__dato" style={`--i:${i}`}>
+        {marcador.map((m) => (
+          <div class="marcador__dato">
             <dt>{m.texto}</dt>
             <dd>{m.valor}</dd>
           </div>
@@ -53,36 +58,13 @@ const marcador = [
 
 <style>
   .hero {
-    position: relative;
-    overflow: clip;
-    padding-block: var(--e-7) var(--e-8);
-  }
-
-  /* Halo de color detrás de todo: azul y verde, como luces de estadio. */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: -20% -10% auto auto;
-    width: 70vw;
-    height: 70vw;
-    max-width: 60rem;
-    max-height: 60rem;
-    background:
-      radial-gradient(closest-side, color-mix(in srgb, var(--azul) 28%, transparent), transparent 70%),
-      radial-gradient(
-        closest-side at 30% 70%,
-        color-mix(in srgb, var(--verde-vivo) 22%, transparent),
-        transparent 70%
-      );
-    filter: blur(20px);
-    pointer-events: none;
-    z-index: -1;
+    padding-block: var(--e-8) var(--e-9);
   }
 
   .hero__rejilla {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    gap: var(--e-8);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: var(--e-9);
     align-items: center;
   }
 
@@ -91,69 +73,62 @@ const marcador = [
   }
 
   .hero__rol {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: var(--e-2);
-    padding: var(--e-1) var(--e-4);
-    border-radius: var(--radio-boton);
-    background: var(--superficie);
-    font-weight: 600;
+    color: var(--tinta-suave);
+    font-weight: 550;
     font-size: 0.9375rem;
   }
 
   .hero__rol::before {
     content: '';
-    width: 0.6rem;
-    height: 0.6rem;
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: 50%;
     background: var(--resalte);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--resalte) 25%, transparent);
   }
 
   .hero__nombre {
-    --ancho: 112;
     margin-top: var(--e-5);
-    /* Medido para que «PANTOJA» quepa en la columna aun con el ancho máximo (125 %). */
-    font-size: min(15cqi, 7.4rem);
-    font-weight: 900;
-    font-stretch: calc(var(--ancho) * 1%);
-    line-height: 0.96;
-    letter-spacing: -0.015em;
+    /* Medido para que «PANTOJA GUERRA» quepa en una línea dentro de la columna. */
+    font-size: min(8.4cqi, 4.75rem);
+    font-weight: 850;
+    font-stretch: 110%;
+    line-height: 1;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
     color: var(--tinta);
     text-wrap: initial;
   }
 
-  .hero__palabra {
+  .hero__linea {
     display: block;
     animation: entrar var(--dur-larga) var(--curva) backwards;
-    animation-delay: calc(var(--i) * 90ms + 100ms);
+    animation-delay: calc(var(--i) * 80ms + 80ms);
   }
 
-  /* Los apellidos en azul: el nombre en la espalda de la camiseta. */
-  .hero__palabra:nth-child(n + 3) {
+  .hero__linea--apellidos {
     color: var(--accion);
   }
 
   @keyframes entrar {
     from {
       opacity: 0;
-      transform: translateY(0.35em);
-      font-stretch: 62%;
+      translate: 0 0.2em;
     }
   }
 
   .hero__que-hago {
     margin-top: var(--e-6);
-    font-size: var(--t-3);
-    font-stretch: 110%;
-    font-weight: 750;
-    line-height: 1.15;
-    max-width: 24ch;
+    font-size: var(--t-2);
+    font-weight: 600;
+    line-height: 1.3;
+    max-width: 30ch;
   }
 
   .hero__disponible {
-    margin-top: var(--e-3);
+    margin-top: var(--e-2);
     color: var(--tinta-suave);
     max-width: 40ch;
   }
@@ -165,90 +140,63 @@ const marcador = [
     margin-top: var(--e-6);
   }
 
-  /* Marcador de estadio: números grandes en tabla, la etiqueta debajo. */
+  /* Marcador: tres datos en línea, separados por una raya fina. Sin caja: que no compita con la cancha. */
   .marcador {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, auto));
-    justify-content: start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--e-5) var(--e-6);
     margin-top: var(--e-7);
-    border-radius: var(--radio-tarjeta);
-    background: var(--azul-noche);
-    color: var(--hielo);
-    overflow: hidden;
-    box-shadow: 0 18px 40px -26px color-mix(in srgb, var(--azul) 90%, transparent);
+    padding-top: var(--e-5);
+    border-top: 1px solid var(--linea);
   }
 
-  /* El número va arriba (order) aunque en el HTML la etiqueta va primero, como pide <dl>. */
   .marcador__dato {
     display: grid;
     align-content: start;
-    gap: var(--e-1);
-    padding: var(--e-4) var(--e-5);
-    animation: entrar var(--dur-larga) var(--curva) backwards;
-    animation-delay: calc(var(--i) * 120ms + 600ms);
+    gap: 2px;
   }
 
   .marcador__dato + .marcador__dato {
-    border-left: 1px solid color-mix(in srgb, var(--hielo) 18%, transparent);
+    padding-left: var(--e-6);
+    border-left: 1px solid var(--linea);
   }
 
+  /* El número va arriba (order) aunque en el HTML la etiqueta va primero, como pide <dl>. */
   .marcador dd {
     order: -1;
     margin: 0;
-    font-size: 2rem;
-    font-weight: 900;
-    font-stretch: 125%;
-    line-height: 1;
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-stretch: 110%;
+    line-height: 1.1;
     font-variant-numeric: tabular-nums;
-    color: var(--verde-vivo);
   }
 
   .marcador dt {
-    max-width: 14ch;
+    max-width: 16ch;
     font-size: var(--t-0);
-    font-weight: 600;
-    line-height: 1.3;
-    color: var(--suave-sobre-oscuro);
-  }
-
-  @media (max-width: 30rem) {
-    .marcador__dato {
-      padding: var(--e-3) var(--e-4);
-    }
-
-    .marcador dd {
-      font-size: 1.5rem;
-    }
+    line-height: 1.35;
+    color: var(--tinta-suave);
   }
 
   @media (max-width: 64rem) {
     .hero__rejilla {
       grid-template-columns: 1fr;
-      gap: var(--e-7);
+      gap: var(--e-8);
+    }
+
+    .hero__nombre {
+      font-size: min(10cqi, 4.75rem);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .marcador__dato + .marcador__dato {
+      padding-left: var(--e-4);
+    }
+
+    .marcador {
+      gap: var(--e-4);
     }
   }
 </style>
-
-<script>
-  // El nombre se ensancha o se estrecha según dónde esté el puntero: usa el eje de ancho de la fuente.
-  const nombre = document.querySelector<HTMLElement>('[data-nombre-elastico]');
-  const reducir = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const fino = window.matchMedia('(pointer: fine)');
-
-  if (nombre && fino.matches && !reducir.matches) {
-    let pendiente = 0;
-    window.addEventListener(
-      'pointermove',
-      (e) => {
-        cancelAnimationFrame(pendiente);
-        pendiente = requestAnimationFrame(() => {
-          const caja = nombre.getBoundingClientRect();
-          const x = Math.min(Math.max((e.clientX - caja.left) / caja.width, 0), 1);
-          // Entre 100 % y 125 % de ancho: siempre legible.
-          nombre.style.setProperty('--ancho', String(Math.round(100 + x * 25)));
-        });
-      },
-      { passive: true },
-    );
-  }
-</script>

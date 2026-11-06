@@ -34,37 +34,36 @@ const tecnologiasDe = (slug: string) =>
     </div>
 
     <ul class="proyectos" role="list">
-      {proyectos.map((p) => (
-        <li class="proyecto revelar" data-proyecto data-tecnologias={JSON.stringify(tecnologiasDe(p.id))}>
-          {posiciones[p.id] && (
-            <span class="proyecto__dorsal" aria-hidden="true">
-              {posiciones[p.id]!.dorsal}
-            </span>
-          )}
-          <div class="proyecto__texto">
-            <h3 class="proyecto__nombre">
-              <a href={`/proyectos/${p.id}`} class="proyecto__enlace">
-                {p.data.titulo}
-              </a>
-            </h3>
-            <p class="proyecto__resumen">{p.data.resumen}</p>
-            <ul class="proyecto__stack" role="list" aria-label="Tecnologías">
-              {p.data.stack.slice(0, 5).map((s) => (
-                <li>{s}</li>
-              ))}
-            </ul>
-            <span class="proyecto__ver" aria-hidden="true">
-              Ver caso de estudio
-              <svg width="18" height="18" viewBox="0 0 18 18">
-                <path d="M3 9h11M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" />
-              </svg>
-            </span>
-          </div>
-          <div class="proyecto__lado">
-            <p class="proyecto__area">
-              {posiciones[p.id] && <span class="proyecto__puesto">{posiciones[p.id]!.puesto} · </span>}
-              {p.data.area}
-            </p>
+      {proyectos.map((p) => {
+        const pos = posiciones[p.id];
+        return (
+          <li class="proyecto revelar" data-proyecto data-tecnologias={JSON.stringify(tecnologiasDe(p.id))}>
+            <div class="proyecto__texto">
+              <p class="proyecto__area">
+                {pos && (
+                  <span class="proyecto__dorsal" aria-hidden="true">
+                    {pos.dorsal}
+                  </span>
+                )}
+                <span>{pos ? `${pos.puesto} · ${p.data.area}` : p.data.area}</span>
+              </p>
+              <h3 class="proyecto__nombre">
+                <a href={`/proyectos/${p.id}`} class="proyecto__enlace">
+                  {p.data.titulo}
+                </a>
+              </h3>
+              <p class="proyecto__resumen">{p.data.resumen}</p>
+              <p class="proyecto__stack">
+                <span class="solo-lectores">Tecnologías: </span>
+                {p.data.stack.slice(0, 5).join(' · ')}
+              </p>
+              <span class="proyecto__ver" aria-hidden="true">
+                Ver caso de estudio
+                <svg width="16" height="16" viewBox="0 0 18 18">
+                  <path d="M3 9h11M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" />
+                </svg>
+              </span>
+            </div>
             {p.data.portada ? (
               <Image
                 class="proyecto__imagen"
@@ -75,15 +74,14 @@ const tecnologiasDe = (slug: string) =>
                 loading="lazy"
               />
             ) : (
-              // Sin captura publicada: una mini pizarra con el dorsal y la tecnología principal.
+              // Sin captura publicada: una mini pizarra con el dorsal.
               <div class="proyecto__imagen proyecto__pizarra" aria-hidden="true">
-                <span class="proyecto__pizarra-dorsal">{posiciones[p.id]?.dorsal ?? ''}</span>
-                <span class="proyecto__pizarra-stack">{p.data.stack.slice(0, 2).join(' · ')}</span>
+                <span class="proyecto__pizarra-dorsal">{pos?.dorsal ?? ''}</span>
               </div>
             )}
-          </div>
-        </li>
-      ))}
+          </li>
+        );
+      })}
     </ul>
   </div>
 </section>
@@ -106,166 +104,117 @@ const tecnologiasDe = (slug: string) =>
   }
 
   .chip {
-    min-height: 2.75rem;
-    padding: var(--e-2) var(--e-4);
-    border: var(--trazo) solid color-mix(in srgb, var(--tinta) 25%, transparent);
+    min-height: 2.5rem;
+    padding: var(--e-1) var(--e-4);
+    border: 1px solid var(--linea);
     border-radius: var(--radio-boton);
     background: transparent;
-    font-weight: 600;
-    font-size: 0.9375rem;
+    font-weight: 550;
+    font-size: 0.875rem;
     cursor: pointer;
     transition:
       background-color var(--dur-corta) var(--curva),
       border-color var(--dur-corta) var(--curva),
-      transform var(--dur-corta) var(--curva);
+      color var(--dur-corta) var(--curva);
   }
 
   .chip:hover {
-    border-color: var(--accion);
-  }
-
-  .chip:active {
-    transform: scale(0.96);
+    border-color: var(--tinta-suave);
   }
 
   .chip[aria-pressed='true'] {
-    background: var(--accion);
-    border-color: var(--accion);
-    color: var(--sobre-accion);
+    background: var(--tinta);
+    border-color: var(--tinta);
+    color: var(--fondo);
   }
 
   .filtro__estado {
     min-height: 1.6em;
     color: var(--tinta-suave);
-    font-weight: 600;
+    font-size: 0.9375rem;
   }
 
   .proyectos {
     display: grid;
-    gap: var(--e-5);
+    gap: var(--e-4);
     list-style: none;
     padding: 0;
   }
 
   .proyecto {
     position: relative;
-    isolation: isolate;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) 20rem;
     align-items: center;
-    gap: var(--e-6);
-    padding: var(--e-6) var(--e-7);
+    gap: var(--e-7);
+    padding: var(--e-6);
+    border: 1px solid var(--linea);
     border-radius: var(--radio-tarjeta);
     background: var(--superficie);
-    overflow: hidden;
     transition:
-      opacity var(--dur-media) var(--curva),
-      transform var(--dur-media) var(--curva),
-      filter var(--dur-media) var(--curva);
+      border-color var(--dur-media) var(--curva),
+      box-shadow var(--dur-media) var(--curva),
+      translate var(--dur-media) var(--curva),
+      opacity var(--dur-media) var(--curva);
   }
 
-  /* Luz que sigue al puntero (ver script): un foco de estadio sobre la tarjeta. */
-  .proyecto::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: radial-gradient(
-      28rem circle at var(--mx, 50%) var(--my, 50%),
-      color-mix(in srgb, var(--verde-vivo) 22%, transparent),
-      transparent 60%
-    );
-    opacity: 0;
-    transition: opacity var(--dur-media) var(--curva);
-    pointer-events: none;
-  }
-
-  .proyecto:hover::after {
-    opacity: 1;
-  }
-
-  /* El dorsal del puesto, enorme y en contorno, detrás del texto. */
-  .proyecto__dorsal {
-    position: absolute;
-    right: 24rem;
-    bottom: -0.18em;
-    z-index: -1;
-    font-size: clamp(8rem, 16vw, 14rem);
-    font-weight: 900;
-    font-stretch: 125%;
-    line-height: 1;
-    color: transparent;
-    -webkit-text-stroke: 2px color-mix(in srgb, var(--tinta) 14%, transparent);
-    transition:
-      transform 600ms var(--curva-rebote),
-      -webkit-text-stroke-color var(--dur-media) var(--curva);
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .proyecto:hover .proyecto__dorsal,
-  .proyecto:focus-within .proyecto__dorsal {
-    transform: translateY(-0.08em) rotate(-4deg);
-    -webkit-text-stroke-color: color-mix(in srgb, var(--hielo) 30%, transparent);
-  }
-
-  /* Barrido azul desde la izquierda al pasar el puntero o al enfocar. */
-  .proyecto::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(100deg, var(--azul), color-mix(in srgb, var(--azul) 70%, var(--cancha)));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 450ms var(--curva);
-  }
-
-  .proyecto:hover::before,
-  .proyecto:focus-within::before {
-    transform: scaleX(1);
-  }
-
-  .proyecto:hover,
-  .proyecto:focus-within {
-    color: var(--hielo);
-  }
-
-  .proyecto:hover .proyecto__stack li,
-  .proyecto:focus-within .proyecto__stack li {
-    background: color-mix(in srgb, var(--hielo) 18%, transparent);
-    color: var(--hielo);
-  }
-
-  .proyecto:hover .proyecto__area,
-  .proyecto:focus-within .proyecto__area {
-    background: var(--verde-vivo);
-    color: var(--azul-noche);
+  .proyecto:hover {
+    border-color: color-mix(in srgb, var(--accion) 45%, transparent);
+    box-shadow: var(--sombra);
+    translate: 0 -2px;
   }
 
   .proyecto.atenuado {
-    opacity: 0.35;
-    filter: saturate(0.4);
-    transform: scale(0.985);
+    opacity: 0.4;
+  }
+
+  .proyecto__area {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--e-1) var(--e-2);
+    color: var(--tinta-suave);
+    font-size: 0.875rem;
+    font-weight: 550;
+  }
+
+  /* El dorsal del puesto en la cancha: la misma ficha azul de la pizarra, en pequeño. */
+  .proyecto__dorsal {
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--accion);
+    color: var(--sobre-accion);
+    font-size: 0.75rem;
+    font-weight: 800;
   }
 
   .proyecto__nombre {
-    font-size: var(--t-5);
-    font-stretch: 125%;
-    font-weight: 850;
-    line-height: 0.92;
+    margin-top: var(--e-3);
+    font-size: var(--t-4);
+    font-stretch: 110%;
+    font-weight: 800;
+    line-height: 1.05;
     letter-spacing: -0.01em;
-    text-transform: uppercase;
   }
 
   .proyecto__enlace {
     text-decoration: none;
+    transition: color var(--dur-corta) var(--curva);
   }
 
+  /* Toda la tarjeta es el enlace. */
   .proyecto__enlace::after {
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
+  }
+
+  .proyecto:hover .proyecto__enlace {
+    color: var(--accion);
   }
 
   .proyecto__enlace:focus-visible {
@@ -273,36 +222,21 @@ const tecnologiasDe = (slug: string) =>
   }
 
   .proyecto:has(.proyecto__enlace:focus-visible) {
-    outline: 3px solid var(--resalte);
-    outline-offset: 4px;
+    outline: 3px solid var(--accion);
+    outline-offset: 3px;
   }
 
   .proyecto__resumen {
-    margin-top: var(--e-4);
-    font-size: var(--t-2);
-    line-height: 1.35;
-    font-weight: 500;
-    max-width: 44ch;
+    margin-top: var(--e-3);
+    font-size: 1.125rem;
+    line-height: 1.45;
+    max-width: 46ch;
   }
 
   .proyecto__stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--e-2);
-    list-style: none;
-    padding: 0;
     margin-top: var(--e-4);
-  }
-
-  .proyecto__stack li {
-    padding: 2px 10px;
-    border-radius: var(--radio-boton);
-    background: var(--fondo);
+    color: var(--tinta-suave);
     font-size: 0.875rem;
-    font-weight: 600;
-    transition:
-      background-color var(--dur-media) var(--curva),
-      color var(--dur-media) var(--curva);
   }
 
   .proyecto__ver {
@@ -310,137 +244,68 @@ const tecnologiasDe = (slug: string) =>
     align-items: center;
     gap: var(--e-2);
     margin-top: var(--e-5);
-    font-weight: 700;
+    color: var(--accion);
+    font-weight: 650;
+    font-size: 0.9375rem;
   }
 
   .proyecto__ver svg {
-    transition: transform var(--dur-media) var(--curva-rebote);
+    transition: translate var(--dur-media) var(--curva);
   }
 
   .proyecto:hover .proyecto__ver svg {
-    transform: translateX(6px);
-  }
-
-  .proyecto__lado {
-    display: grid;
-    justify-items: end;
-    gap: var(--e-4);
-  }
-
-  .proyecto__area {
-    padding: var(--e-1) var(--e-4);
-    border-radius: var(--radio-boton);
-    background: var(--fondo);
-    font-weight: 700;
-    font-size: 0.9375rem;
-    transition:
-      background-color var(--dur-media) var(--curva),
-      color var(--dur-media) var(--curva);
+    translate: 4px 0;
   }
 
   .proyecto__imagen {
-    width: 20rem;
+    width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     border-radius: var(--radio-imagen);
     background: var(--marino);
-    transform: rotate(2deg);
-    transition: transform 500ms var(--curva-rebote);
   }
 
-  .proyecto:hover .proyecto__imagen {
-    transform: rotate(-1.5deg) scale(1.04);
-  }
-
-  .proyecto__puesto {
-    font-weight: 600;
-  }
-
-  /* Mini pizarra para los proyectos sin captura: franjas de cancha, círculo central y el dorsal. */
+  /* Mini pizarra para los proyectos sin captura: franjas suaves, línea y círculo central, y el dorsal. */
   .proyecto__pizarra {
-    position: relative;
     display: grid;
-    place-content: center;
-    justify-items: center;
-    gap: var(--e-1);
-    overflow: hidden;
+    place-items: center;
     background:
-      radial-gradient(circle at 50% 50%, transparent 2.9rem, var(--cal) 3rem, transparent 3.1rem),
+      radial-gradient(circle at 50% 50%, transparent 2.9rem, var(--cal) 3rem, transparent 3.08rem),
       linear-gradient(90deg, transparent calc(50% - 1px), var(--cal) 0 calc(50% + 1px), transparent 0),
       repeating-linear-gradient(90deg, var(--cancha) 0 2.5rem, var(--cancha-2) 2.5rem 5rem);
     box-shadow:
       inset 0 0 0 0.6rem var(--cancha),
-      inset 0 0 0 calc(0.6rem + 2px) var(--cal);
-    color: var(--hielo);
+      inset 0 0 0 calc(0.6rem + 1.5px) var(--cal);
   }
 
   .proyecto__pizarra-dorsal {
     display: grid;
     place-items: center;
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
     border-radius: 50%;
     background: var(--azul);
-    border: 3px solid var(--cal);
-    font-size: 2rem;
-    font-weight: 900;
-    font-stretch: 125%;
-    box-shadow: 0 10px 20px -8px rgb(8 22 52 / 0.7);
-  }
-
-  .proyecto__pizarra-stack {
-    padding: 2px 10px;
-    border-radius: var(--radio-boton);
-    background: color-mix(in srgb, var(--marino) 80%, transparent);
-    font-size: 0.8125rem;
-    font-weight: 700;
+    border: 2px solid var(--cal);
+    color: var(--hielo);
+    font-size: 1.5rem;
+    font-weight: 850;
+    font-stretch: 115%;
   }
 
   @media (max-width: 47.99rem) {
     .proyecto {
       grid-template-columns: 1fr;
+      gap: var(--e-5);
       padding: var(--e-5);
     }
 
-    .proyecto__lado {
-      order: -1;
-      justify-items: start;
-    }
-
     .proyecto__imagen {
-      width: 100%;
-      transform: none;
-    }
-
-    .proyecto__dorsal {
-      right: var(--e-4);
-      bottom: auto;
-      top: var(--e-2);
-      font-size: 6rem;
-    }
-  }
-
-  @media (max-width: 64rem) and (min-width: 48rem) {
-    .proyecto__dorsal {
-      right: 50%;
+      order: -1;
     }
   }
 </style>
 
 <script>
-  // Luz que sigue al puntero sobre cada tarjeta.
-  document.querySelectorAll<HTMLElement>('[data-proyecto]').forEach((tarjeta) => {
-    tarjeta.addEventListener(
-      'pointermove',
-      (e) => {
-        const caja = tarjeta.getBoundingClientRect();
-        tarjeta.style.setProperty('--mx', `${e.clientX - caja.left}px`);
-        tarjeta.style.setProperty('--my', `${e.clientY - caja.top}px`);
-      },
-      { passive: true },
-    );
-  });
-
   const filtro = document.querySelector<HTMLElement>('[data-filtro]');
   const estado = document.querySelector<HTMLElement>('[data-filtro-estado]');
   const filas = Array.from(document.querySelectorAll<HTMLElement>('[data-proyecto]'));

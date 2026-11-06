@@ -44,7 +44,7 @@ Las pruebas usan Microsoft Edge (`PW_CHANNEL=msedge`, el valor por defecto). Par
 
 ```
 src/
-├── components/      Hero (con marcador), Cancha (pizarra táctica), Valla (LED de tecnologías), ListaProyectos, ComoTrabajo, SobreMi, Trayectoria, Contacto…
+├── components/      Hero (con marcador), Cancha (pizarra táctica), ListaProyectos, ComoTrabajo, SobreMi, Trayectoria, Contacto…
 ├── content/
 │   └── proyectos/   Un archivo .md por proyecto: datos arriba, caso de estudio abajo
 ├── data/perfil.ts   Datos personales, "Ahora mismo", trayectoria y tecnologías

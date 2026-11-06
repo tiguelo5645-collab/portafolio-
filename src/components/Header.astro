@@ -12,7 +12,6 @@ const ruta = Astro.url.pathname;
 ---
 
 <header class="cabecera" data-cabecera>
-  <div class="cabecera__progreso" aria-hidden="true"></div>
   <div class="contenedor cabecera__fila">
     <a class="marca" href="/" aria-current={ruta === '/' ? 'page' : undefined}>
       <span class="marca__dorsal" aria-hidden="true">
@@ -71,7 +70,7 @@ const ruta = Astro.url.pathname;
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: color-mix(in srgb, var(--fondo) 82%, transparent);
+    background: color-mix(in srgb, var(--fondo) 88%, transparent);
     backdrop-filter: blur(14px) saturate(1.4);
     -webkit-backdrop-filter: blur(14px) saturate(1.4);
     border-bottom: 1px solid transparent;
@@ -81,37 +80,7 @@ const ruta = Astro.url.pathname;
   }
 
   .cabecera[data-scroll]::before {
-    border-bottom-color: color-mix(in srgb, var(--tinta) 12%, transparent);
-    box-shadow: 0 10px 30px -24px color-mix(in srgb, var(--azul-noche) 60%, transparent);
-  }
-
-  /* Progreso de lectura: una línea verde que se llena al bajar. Solo donde hay scroll-timeline. */
-  .cabecera__progreso {
-    display: none;
-  }
-
-  @supports (animation-timeline: scroll()) {
-    .cabecera__progreso {
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -1px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accion), var(--resalte));
-      transform-origin: left;
-      animation: progreso linear both;
-      animation-timeline: scroll(root);
-    }
-  }
-
-  @keyframes progreso {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
+    border-bottom-color: var(--linea);
   }
 
   .cabecera__fila {

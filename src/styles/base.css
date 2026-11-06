@@ -138,7 +138,7 @@ pre {
   color: var(--tinta-suave);
 }
 
-/* Botones: píldoras, como las cintas del carnaval. Mínimo 44 px de alto. */
+/* Botones: píldoras. Mínimo 44 px de alto. */
 .boton {
   display: inline-flex;
   align-items: center;
@@ -159,19 +159,16 @@ pre {
     background-color var(--dur-corta) var(--curva),
     color var(--dur-corta) var(--curva),
     border-color var(--dur-corta) var(--curva),
-    transform var(--dur-corta) var(--curva),
-    box-shadow var(--dur-corta) var(--curva);
+    transform var(--dur-corta) var(--curva);
 }
 
 .boton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--accion) 70%, transparent);
   background: var(--tinta);
   color: var(--fondo);
 }
 
 .boton:active {
-  transform: translateY(0) scale(0.98);
+  transform: scale(0.98);
 }
 
 .boton--principal {
@@ -200,7 +197,7 @@ pre {
 }
 
 .seccion + .seccion {
-  border-top: 1px solid color-mix(in srgb, var(--tinta) 15%, transparent);
+  border-top: 1px solid var(--linea);
 }
 
 /* Solo con JavaScript: lo que sin JS no funcionaría se oculta. */
@@ -224,7 +221,7 @@ html:not(.js) .requiere-js {
     .revelar {
       animation: revelar linear both;
       animation-timeline: view();
-      animation-range: entry 0% entry 70%;
+      animation-range: entry 0% entry 50%;
     }
   }
 }
@@ -232,6 +229,6 @@ html:not(.js) .requiere-js {
 @keyframes revelar {
   from {
     opacity: 0;
-    translate: 0 2.5rem;
+    translate: 0 1rem;
   }
 }
