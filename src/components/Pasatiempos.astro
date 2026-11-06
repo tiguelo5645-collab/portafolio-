@@ -1,0 +1,630 @@
+---
+/**
+ * Fuera del código: fútbol, dibujo y guitarra. Cada pasatiempo trae algo para tocar.
+ * Todo funciona con mouse, toque y teclado; sin JavaScript queda el texto.
+ */
+import { pasatiempos } from '@/data/perfil';
+
+/** Afinación estándar, de la sexta cuerda (la más grave) a la primera. */
+const cuerdas = [
+  { nota: 'Mi', frecuencia: 82.41, grosor: 3.2 },
+  { nota: 'La', frecuencia: 110, grosor: 2.8 },
+  { nota: 'Re', frecuencia: 146.83, grosor: 2.4 },
+  { nota: 'Sol', frecuencia: 196, grosor: 2 },
+  { nota: 'Si', frecuencia: 246.94, grosor: 1.6 },
+  { nota: 'Mi agudo', frecuencia: 329.63, grosor: 1.3 },
+];
+
+const colores = [
+  { nombre: 'Azul', var: '--accion' },
+  { nombre: 'Verde', var: '--resalte' },
+  { nombre: 'Tinta', var: '--tinta' },
+];
+---
+
+<section class="seccion" id="fuera-del-codigo" aria-labelledby="fuera-titulo">
+  <div class="contenedor">
+    <h2 id="fuera-titulo" class="titulo-seccion">
+      Fuera del código
+    </h2>
+
+    <ul class="pasatiempos" role="list">
+      <!-- Fútbol: dominar el balón -->
+      <li class="tarjeta tarjeta--futbol revelar">
+        <h3 class="tarjeta__titulo">
+          <span class="tarjeta__icono" aria-hidden="true">
+            ⚽
+          </span>
+          {pasatiempos.futbol.titulo}
+        </h3>
+        <p class="tarjeta__texto">{pasatiempos.futbol.texto}</p>
+
+        <div class="juego requiere-js" data-dominadas>
+          <div class="dominadas__campo" aria-hidden="true">
+            <span class="dominadas__balon" data-balon></span>
+            <span class="dominadas__sombra" data-sombra></span>
+          </div>
+          <button type="button" class="boton boton--claro" data-toque>
+            Dar un toque
+          </button>
+          <p class="dominadas__marcador" role="status" aria-live="polite">
+            <span>
+              <strong data-cuenta>0</strong> toques
+            </span>
+            <span>
+              Récord: <strong data-record>0</strong>
+            </span>
+          </p>
+        </div>
+      </li>
+
+      <!-- Dibujo: un lienzo pequeño -->
+      <li class="tarjeta tarjeta--dibujo revelar">
+        <h3 class="tarjeta__titulo">
+          <span class="tarjeta__icono" aria-hidden="true">
+            ✏️
+          </span>
+          {pasatiempos.dibujo.titulo}
+        </h3>
+        <p class="tarjeta__texto">{pasatiempos.dibujo.texto}</p>
+
+        <div class="juego requiere-js" data-dibujo>
+          <canvas
+            class="lienzo"
+            data-lienzo
+            role="img"
+            aria-label="Lienzo para dibujar con el puntero o el dedo"
+          ></canvas>
+          <div class="lienzo__herramientas">
+            <div class="lienzo__colores" role="group" aria-label="Color del trazo">
+              {colores.map((c, i) => (
+                <button
+                  type="button"
+                  class="color"
+                  style={`--color: var(${c.var})`}
+                  data-color={c.var}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                >
+                  <span class="solo-lectores">{c.nombre}</span>
+                </button>
+              ))}
+            </div>
+            <button type="button" class="boton boton--pequeno" data-borrar>
+              Borrar
+            </button>
+          </div>
+        </div>
+      </li>
+
+      <!-- Guitarra: seis cuerdas que suenan -->
+      <li class="tarjeta tarjeta--guitarra revelar">
+        <h3 class="tarjeta__titulo">
+          <span class="tarjeta__icono" aria-hidden="true">
+            🎸
+          </span>
+          {pasatiempos.guitarra.titulo}
+        </h3>
+        <p class="tarjeta__texto">{pasatiempos.guitarra.texto}</p>
+
+        <div class="juego requiere-js" data-guitarra>
+          <div class="mastil" role="group" aria-label="Cuerdas de la guitarra">
+            {cuerdas.map((c) => (
+              <button
+                type="button"
+                class="cuerda"
+                style={`--grosor: ${c.grosor}px`}
+                data-frecuencia={c.frecuencia}
+              >
+                <span class="cuerda__linea" aria-hidden="true" />
+                <span class="cuerda__nota">{c.nota}</span>
+              </button>
+            ))}
+            <span class="mastil__boca" aria-hidden="true"></span>
+          </div>
+          <button type="button" class="boton boton--claro" data-rasguear>
+            Rasguear
+          </button>
+          <p class="guitarra__ayuda">Toca una cuerda o arrastra sobre ellas. Sube el volumen.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .pasatiempos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: var(--e-5);
+    list-style: none;
+    padding: 0;
+  }
+
+  .tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--e-3);
+    padding: var(--e-6);
+    border-radius: var(--radio-tarjeta);
+    background: var(--superficie);
+  }
+
+  .tarjeta__titulo {
+    display: flex;
+    align-items: center;
+    gap: var(--e-3);
+    font-size: var(--t-3);
+    font-stretch: 115%;
+    font-weight: 850;
+  }
+
+  .tarjeta__icono {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--fondo);
+    font-size: 1.35rem;
+  }
+
+  .tarjeta__texto {
+    max-width: 36ch;
+  }
+
+  .juego {
+    display: grid;
+    gap: var(--e-4);
+    margin-top: auto;
+    padding-top: var(--e-4);
+  }
+
+  .boton--claro {
+    justify-self: start;
+    border-color: currentColor;
+    color: inherit;
+  }
+
+  .boton--pequeno {
+    min-height: 2.75rem;
+    padding: var(--e-2) var(--e-4);
+  }
+
+  /* ---------- Fútbol: verde cancha en ambos temas ---------- */
+  .tarjeta--futbol {
+    background: repeating-linear-gradient(0deg, var(--cancha) 0 2.5rem, var(--cancha-2) 2.5rem 5rem);
+    color: var(--hielo);
+  }
+
+  .tarjeta--futbol .tarjeta__icono {
+    background: color-mix(in srgb, var(--hielo) 18%, transparent);
+  }
+
+  .tarjeta--futbol :focus-visible {
+    outline-color: var(--hielo);
+  }
+
+  .tarjeta--futbol .boton--claro:hover {
+    background: var(--hielo);
+    color: var(--cancha);
+    border-color: var(--hielo);
+  }
+
+  .dominadas__campo {
+    position: relative;
+    height: 9rem;
+    border-bottom: 2px solid var(--cal);
+  }
+
+  .dominadas__balon {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 3rem;
+    height: 3rem;
+    margin-left: -1.5rem;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, var(--marino) 0 0.45rem, transparent 0.5rem),
+      radial-gradient(circle at 20% 30%, var(--marino) 0 0.3rem, transparent 0.35rem),
+      radial-gradient(circle at 80% 30%, var(--marino) 0 0.3rem, transparent 0.35rem),
+      radial-gradient(circle at 30% 85%, var(--marino) 0 0.3rem, transparent 0.35rem),
+      radial-gradient(circle at 75% 85%, var(--marino) 0 0.3rem, transparent 0.35rem),
+      radial-gradient(circle at 35% 30%, #fff 0, var(--hielo) 45%, #b9c9ef);
+    box-shadow: inset -4px -6px 10px rgb(8 22 52 / 0.35);
+  }
+
+  .dominadas__sombra {
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 3rem;
+    height: 0.5rem;
+    margin-left: -1.5rem;
+    border-radius: 50%;
+    background: rgb(8 22 52 / 0.45);
+  }
+
+  .dominadas__marcador {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--e-4);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dominadas__marcador strong {
+    font-size: 1.5rem;
+    font-weight: 900;
+    font-stretch: 125%;
+  }
+
+  /* ---------- Dibujo ---------- */
+  .lienzo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radio-imagen);
+    background:
+      radial-gradient(circle, color-mix(in srgb, var(--tinta) 14%, transparent) 1px, transparent 1.5px) 0 0 /
+        16px 16px,
+      var(--fondo);
+    border: var(--trazo) dashed color-mix(in srgb, var(--tinta) 30%, transparent);
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  .lienzo__herramientas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--e-3);
+  }
+
+  .lienzo__colores {
+    display: flex;
+    gap: var(--e-2);
+  }
+
+  .color {
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 3px solid var(--superficie);
+    border-radius: 50%;
+    background: var(--color);
+    box-shadow: 0 0 0 2px transparent;
+    cursor: pointer;
+    transition:
+      transform var(--dur-corta) var(--curva-rebote),
+      box-shadow var(--dur-corta) var(--curva);
+  }
+
+  .color:hover {
+    transform: scale(1.08);
+  }
+
+  .color[aria-pressed='true'] {
+    box-shadow: 0 0 0 2px var(--tinta);
+  }
+
+  /* ---------- Guitarra: azul noche en ambos temas ---------- */
+  /* Escenario de noche: un foco azul arriba para que la tarjeta se distinga también en el tema Noche. */
+  .tarjeta--guitarra {
+    background: radial-gradient(120% 80% at 50% 0%, #1d3a8f, transparent 70%), var(--marino);
+    border: 1px solid color-mix(in srgb, var(--azul-claro) 35%, transparent);
+    color: var(--hielo);
+  }
+
+  .tarjeta--guitarra .tarjeta__icono {
+    background: color-mix(in srgb, var(--hielo) 14%, transparent);
+  }
+
+  .tarjeta--guitarra :focus-visible {
+    outline-color: var(--verde-vivo);
+  }
+
+  .tarjeta--guitarra .boton--claro:hover {
+    background: var(--hielo);
+    color: var(--azul-noche);
+    border-color: var(--hielo);
+  }
+
+  /* El mástil: madera oscura, la boca de la guitarra detrás y seis cuerdas que son botones. */
+  .mastil {
+    position: relative;
+    display: grid;
+    padding-block: var(--e-2);
+    border-radius: var(--radio-imagen);
+    background: linear-gradient(90deg, #3b2412, #5a3a1e 50%, #3b2412);
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .mastil__boca {
+    position: absolute;
+    top: 50%;
+    left: 62%;
+    width: 7rem;
+    height: 7rem;
+    margin: -3.5rem 0 0 -3.5rem;
+    border-radius: 50%;
+    background: #1a0f06;
+    box-shadow: 0 0 0 6px #c99a5b;
+    pointer-events: none;
+  }
+
+  .cuerda {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 var(--e-3);
+    border: 0;
+    background: none;
+    color: #f0d9b5;
+    cursor: pointer;
+  }
+
+  .cuerda__linea {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: var(--grosor);
+    margin-top: calc(var(--grosor) / -2);
+    background: linear-gradient(#f4f4f4, #9a9a9a);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+    transform-origin: center;
+  }
+
+  .cuerda__nota {
+    position: relative;
+    padding: 0 6px;
+    border-radius: var(--radio-boton);
+    background: rgb(26 15 6 / 0.85);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .cuerda.sonando .cuerda__linea {
+    background: linear-gradient(var(--verde-vivo), #1d9f6f);
+    animation: vibrar 420ms linear;
+  }
+
+  @keyframes vibrar {
+    0%,
+    100% {
+      transform: none;
+    }
+    10%,
+    50%,
+    90% {
+      transform: translateY(-1.5px) scaleY(1.6);
+    }
+    30%,
+    70% {
+      transform: translateY(1.5px) scaleY(1.6);
+    }
+  }
+
+  .guitarra__ayuda {
+    font-size: var(--t-0);
+    color: #b9c9ef;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cuerda.sonando .cuerda__linea {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const reducir = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // ---------- Fútbol: cada toque sube el balón; si tardas, cae y la cuenta vuelve a cero. ----------
+  document.querySelectorAll<HTMLElement>('[data-dominadas]').forEach((caja) => {
+    const balon = caja.querySelector<HTMLElement>('[data-balon]')!;
+    const sombra = caja.querySelector<HTMLElement>('[data-sombra]')!;
+    const cuenta = caja.querySelector<HTMLElement>('[data-cuenta]')!;
+    const recordEl = caja.querySelector<HTMLElement>('[data-record]')!;
+    let toques = 0;
+    let record = 0;
+    let caida: number | undefined;
+    try {
+      record = Number(localStorage.getItem('record-toques')) || 0;
+    } catch {
+      // Sin almacenamiento: el récord dura lo que dure la página.
+    }
+    recordEl.textContent = String(record);
+
+    const tocar = () => {
+      toques++;
+      cuenta.textContent = String(toques);
+      if (toques > record) {
+        record = toques;
+        recordEl.textContent = String(record);
+        try {
+          localStorage.setItem('record-toques', String(record));
+        } catch {
+          // Igual que arriba.
+        }
+      }
+      if (!reducir.matches) {
+        // Altura y giro un poco distintos en cada toque, como en la cancha.
+        const alto = 80 + Math.random() * 30;
+        const giro = (Math.random() - 0.5) * 360;
+        balon.animate(
+          [
+            { transform: 'translateY(0) rotate(0)' },
+            { transform: `translateY(-${alto}px) rotate(${giro / 2}deg)`, easing: 'ease-in', offset: 0.5 },
+            { transform: `translateY(0) rotate(${giro}deg)` },
+          ],
+          { duration: 900, easing: 'ease-out' },
+        );
+        sombra.animate(
+          [
+            { scale: '1', opacity: 1 },
+            { scale: '0.5', opacity: 0.4 },
+            { scale: '1', opacity: 1 },
+          ],
+          {
+            duration: 900,
+          },
+        );
+      }
+      // Si no vuelves a tocar antes de que caiga, se pierde la racha.
+      window.clearTimeout(caida);
+      caida = window.setTimeout(() => {
+        toques = 0;
+        cuenta.textContent = '0';
+      }, 1600);
+    };
+
+    caja.querySelector('[data-toque]')!.addEventListener('click', tocar);
+    balon.parentElement!.addEventListener('pointerdown', tocar);
+  });
+
+  // ---------- Dibujo: trazos suaves con el color elegido. ----------
+  document.querySelectorAll<HTMLElement>('[data-dibujo]').forEach((caja) => {
+    const lienzo = caja.querySelector<HTMLCanvasElement>('[data-lienzo]')!;
+    const ctx = lienzo.getContext('2d');
+    if (!ctx) return;
+    let colorVar = '--accion';
+    let ultimo: { x: number; y: number } | null = null;
+
+    // El lienzo usa la densidad de la pantalla para que el trazo no se vea borroso.
+    const ajustar = () => {
+      const caja = lienzo.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      const copia = lienzo.width > 0 ? ctx.getImageData(0, 0, lienzo.width, lienzo.height) : null;
+      lienzo.width = Math.round(caja.width * dpr);
+      lienzo.height = Math.round(caja.height * dpr);
+      ctx.scale(dpr, dpr);
+      if (copia) ctx.putImageData(copia, 0, 0);
+    };
+    ajustar();
+    new ResizeObserver(() => ajustar()).observe(lienzo);
+
+    const punto = (e: PointerEvent) => {
+      const r = lienzo.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    };
+
+    lienzo.addEventListener('pointerdown', (e) => {
+      lienzo.setPointerCapture(e.pointerId);
+      ultimo = punto(e);
+      ctx.strokeStyle = getComputedStyle(lienzo).getPropertyValue(colorVar).trim();
+      ctx.lineWidth = e.pointerType === 'pen' ? 2 + e.pressure * 4 : 4;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      // Un toque sin arrastrar deja un punto.
+      ctx.beginPath();
+      ctx.arc(ultimo.x, ultimo.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.fill();
+    });
+
+    lienzo.addEventListener('pointermove', (e) => {
+      if (!ultimo) return;
+      const p = punto(e);
+      ctx.beginPath();
+      ctx.moveTo(ultimo.x, ultimo.y);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      ultimo = p;
+    });
+
+    const soltar = () => {
+      ultimo = null;
+    };
+    lienzo.addEventListener('pointerup', soltar);
+    lienzo.addEventListener('pointercancel', soltar);
+
+    caja.querySelectorAll<HTMLButtonElement>('[data-color]').forEach((b) =>
+      b.addEventListener('click', () => {
+        colorVar = b.dataset.color!;
+        caja.querySelectorAll('[data-color]').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+      }),
+    );
+
+    caja.querySelector('[data-borrar]')!.addEventListener('click', () => {
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, lienzo.width, lienzo.height);
+      ctx.restore();
+    });
+  });
+
+  // ---------- Guitarra: síntesis Karplus-Strong, una cuerda pulsada hecha con ruido filtrado. ----------
+  document.querySelectorAll<HTMLElement>('[data-guitarra]').forEach((caja) => {
+    const cuerdas = Array.from(caja.querySelectorAll<HTMLButtonElement>('[data-frecuencia]'));
+    let audio: AudioContext | null = null;
+    const sonidos = new Map<number, AudioBuffer>();
+
+    /** Genera (y guarda) el sonido de una cuerda: ruido que se promedia y se apaga poco a poco. */
+    const sonidoDe = (ac: AudioContext, frecuencia: number) => {
+      const guardado = sonidos.get(frecuencia);
+      if (guardado) return guardado;
+      const tasa = ac.sampleRate;
+      const largo = Math.floor(tasa * 2.2);
+      const buffer = ac.createBuffer(1, largo, tasa);
+      const datos = buffer.getChannelData(0);
+      const periodo = Math.round(tasa / frecuencia);
+      for (let i = 0; i < periodo; i++) datos[i] = Math.random() * 2 - 1;
+      for (let i = periodo; i < largo; i++) {
+        datos[i] = 0.497 * (datos[i - periodo]! + datos[i - periodo + 1]!);
+      }
+      sonidos.set(frecuencia, buffer);
+      return buffer;
+    };
+
+    const pulsar = (cuerda: HTMLButtonElement) => {
+      // El navegador solo deja sonar audio después de una acción de la persona: se crea aquí.
+      audio ??= new AudioContext();
+      if (audio.state === 'suspended') void audio.resume();
+      const fuente = audio.createBufferSource();
+      fuente.buffer = sonidoDe(audio, Number(cuerda.dataset.frecuencia));
+      const volumen = audio.createGain();
+      volumen.gain.value = 0.35;
+      fuente.connect(volumen).connect(audio.destination);
+      fuente.start();
+
+      // La cuerda se enciende mientras vibra y luego vuelve a su color.
+      cuerda.classList.remove('sonando');
+      void cuerda.offsetWidth;
+      cuerda.classList.add('sonando');
+      window.clearTimeout(Number(cuerda.dataset.apagar));
+      cuerda.dataset.apagar = String(window.setTimeout(() => cuerda.classList.remove('sonando'), 450));
+    };
+
+    cuerdas.forEach((c) => {
+      // Un clic (o Enter/Espacio) toca la cuerda. Al arrastrar, el clic no llega a las cuerdas que se cruzan.
+      c.addEventListener('click', () => pulsar(c));
+      // Con el mouse presionado, cada cuerda que se cruza suena: eso es rasguear.
+      c.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse' && e.buttons === 1) pulsar(c);
+      });
+    });
+
+    // En pantallas táctiles, el dedo no dispara pointerenter al cruzar: se busca la cuerda bajo el dedo.
+    const mastil = caja.querySelector<HTMLElement>('.mastil')!;
+    let ultima: Element | null = null;
+    const cuerdaBajo = (e: PointerEvent) =>
+      document.elementFromPoint(e.clientX, e.clientY)?.closest('[data-frecuencia]') ?? null;
+    // La cuerda donde empieza el toque ya suena con el clic: se marca para no repetirla.
+    mastil.addEventListener('pointerdown', (e) => (ultima = cuerdaBajo(e)));
+    mastil.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'touch') return;
+      const debajo = cuerdaBajo(e);
+      if (debajo && debajo !== ultima) pulsar(debajo as HTMLButtonElement);
+      ultima = debajo;
+    });
+    mastil.addEventListener('pointerup', () => (ultima = null));
+    mastil.addEventListener('pointercancel', () => (ultima = null));
+
+    caja.querySelector('[data-rasguear]')!.addEventListener('click', () => {
+      cuerdas.forEach((c, i) => window.setTimeout(() => pulsar(c), i * 35));
+    });
+  });
+</script>

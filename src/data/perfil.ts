@@ -28,7 +28,7 @@ export const perfil = {
 export const historia: string[] = [
   'Soy de Pasto. Desde pequeño me la pasaba en el computador, y aprendí HTML y CSS por mi cuenta antes de saber que eso se podía estudiar.',
   'Hoy estudio Ingeniería de Software en la Universidad Cooperativa de Colombia. Me gusta entender el sistema completo: la pantalla que alguien toca, la API que responde y la base de datos que guarda todo. Por eso mis proyectos van del reloj al servidor, y hasta un videojuego.',
-  'Gané un hackathon. Fuera del código, juego fútbol y lo veo siempre que puedo.',
+  'Gané un hackathon. Fuera del código juego fútbol, dibujo y toco la guitarra.',
 ];
 
 /** Lo que estoy haciendo ahora. Actualízalo cada mes o dos. */
@@ -145,6 +145,22 @@ export const tecnologias: {
     { nombre: 'AWS' },
   ],
   aprendiendo: [],
+};
+
+/** Pasatiempos: lo que hago fuera del código. Cada uno tiene su juego en la sección «Fuera del código». */
+export const pasatiempos = {
+  futbol: {
+    titulo: 'Fútbol',
+    texto: 'Lo juego y lo veo siempre que puedo. Por eso este sitio es una cancha.',
+  },
+  dibujo: {
+    titulo: 'Dibujar',
+    texto: 'Dibujo por gusto. Aquí puedes probar tú también.',
+  },
+  guitarra: {
+    titulo: 'Guitarra',
+    texto: 'Toco la guitarra. Estas cuerdas suenan: pruébalas.',
+  },
 };
 
 /** Cómo trabajo: hábitos que se pueden comprobar en los repositorios. */

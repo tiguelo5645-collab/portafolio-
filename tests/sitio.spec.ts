@@ -138,3 +138,22 @@ test('el marcador muestra datos reales y cada proyecto lleva su dorsal', async (
   await expect(page.getByRole('button', { name: /PrestaLab/ })).toContainText('4');
   await expect(page.locator('[data-proyecto]').nth(1).locator('.proyecto__dorsal')).toHaveText('4');
 });
+
+test('fuera del código: el balón cuenta toques y la guitarra suena', async ({ page }) => {
+  await page.goto('/#fuera-del-codigo');
+  const seccion = page.getByRole('region', { name: 'Fuera del código' });
+  await expect(seccion.getByRole('heading', { name: 'Fútbol' })).toBeVisible();
+  await expect(seccion.getByRole('heading', { name: 'Dibujar' })).toBeVisible();
+  await expect(seccion.getByRole('heading', { name: 'Guitarra' })).toBeVisible();
+
+  const toque = seccion.getByRole('button', { name: 'Dar un toque' });
+  await toque.click();
+  await toque.click();
+  await expect(seccion.locator('[data-cuenta]')).toHaveText('2');
+  await expect(seccion.locator('[data-record]')).toHaveText('2');
+
+  // Seis cuerdas, todas alcanzables con teclado; al tocar una se enciende.
+  await expect(seccion.locator('[data-frecuencia]')).toHaveCount(6);
+  await seccion.getByRole('button', { name: 'Sol' }).click();
+  await expect(seccion.getByRole('button', { name: 'Sol' })).toHaveClass(/sonando/);
+});
