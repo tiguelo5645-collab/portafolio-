@@ -61,7 +61,6 @@ const anio = new Date().getFullYear();
     <p>
       © {anio} {perfil.nombre} · Hecho en {perfil.ciudad}.
     </p>
-    <p class="pie__pista requiere-js">Pista: escribe «gol» en cualquier parte.</p>
     <a class="pie__arriba" href="#contenido">
       Volver arriba
       <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14">
@@ -176,10 +175,6 @@ const anio = new Date().getFullYear();
     color: var(--suave-sobre-oscuro);
   }
 
-  .pie__pista {
-    font-style: italic;
-  }
-
   .pie__arriba {
     display: inline-flex;
     align-items: center;
@@ -233,7 +228,7 @@ const anio = new Date().getFullYear();
     if (buffer === 'gol') {
       buffer = '';
       document.dispatchEvent(new CustomEvent('portafolio:gol'));
-      mostrarAviso('¡Gooool! Si llegaste hasta aquí, hablemos: de software o de fútbol.', 'info', 4500);
+      mostrarAviso('Gol. Si llegaste hasta aquí, hablemos de software o de fútbol.', 'info', 4500);
     }
   });
 </script>

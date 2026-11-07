@@ -129,29 +129,22 @@ test('la cancha muestra el proyecto de cada posición y el filtro resalta por te
   await expect(page.locator('.proyecto.atenuado')).toHaveCount(2);
 });
 
-test('el marcador muestra datos reales y cada proyecto lleva su dorsal', async ({ page }) => {
+test('el marcador muestra datos reales y la cancha comparte los dorsales', async ({ page }) => {
   await page.goto('/');
   const marcador = page.locator('.marcador');
   await expect(marcador.getByRole('definition').first()).toHaveText('4');
   await expect(marcador).toContainText('2028');
   // Mismo dorsal en la cancha y en la tarjeta: PrestaLab es el 4.
   await expect(page.getByRole('button', { name: /PrestaLab/ })).toContainText('4');
-  await expect(page.locator('[data-proyecto]').nth(1).locator('.proyecto__dorsal')).toHaveText('4');
+  await expect(page.locator('[data-proyecto]').nth(1).locator('.proyecto__pizarra-dorsal')).toHaveText('4');
 });
 
-test('fuera del código: el balón cuenta toques y la guitarra suena', async ({ page }) => {
+test('fuera del código: lista los pasatiempos y la guitarra suena', async ({ page }) => {
   await page.goto('/#fuera-del-codigo');
   const seccion = page.getByRole('region', { name: 'Fuera del código' });
-  await expect(seccion.getByRole('heading', { name: 'Fútbol' })).toBeVisible();
-  await expect(seccion.getByRole('heading', { name: 'Dibujar' })).toBeVisible();
-  await expect(seccion.getByRole('heading', { name: 'Guitarra' })).toBeVisible();
-
-  const toque = seccion.getByRole('button', { name: 'Dar un toque' });
-  await toque.click();
-  await toque.click();
-  await expect(seccion.locator('[data-cuenta]')).toHaveText('2');
-  await expect(seccion.locator('[data-record]')).toHaveText('2');
-
+  for (const p of ['Fútbol', 'Dibujo', 'Guitarra']) {
+    await expect(seccion.getByRole('term').filter({ hasText: p })).toBeVisible();
+  }
   // Seis cuerdas, todas alcanzables con teclado; al tocar una se enciende.
   await expect(seccion.locator('[data-frecuencia]')).toHaveCount(6);
   await seccion.getByRole('button', { name: 'Sol' }).click();

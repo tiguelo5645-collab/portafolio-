@@ -147,21 +147,15 @@ export const tecnologias: {
   aprendiendo: [],
 };
 
-/** Pasatiempos: lo que hago fuera del código. Cada uno tiene su juego en la sección «Fuera del código». */
-export const pasatiempos = {
-  futbol: {
+/** Pasatiempos: lo que hago fuera del código. Se muestran en la sección «Fuera del código». */
+export const pasatiempos: { titulo: string; texto: string }[] = [
+  {
     titulo: 'Fútbol',
-    texto: 'Lo juego y lo veo siempre que puedo. Por eso este sitio es una cancha.',
+    texto: 'Lo juego y lo veo siempre que puedo. De ahí viene la cancha de este sitio.',
   },
-  dibujo: {
-    titulo: 'Dibujar',
-    texto: 'Dibujo por gusto. Aquí puedes probar tú también.',
-  },
-  guitarra: {
-    titulo: 'Guitarra',
-    texto: 'Toco la guitarra. Estas cuerdas suenan: pruébalas.',
-  },
-};
+  { titulo: 'Dibujo', texto: 'Dibujo por gusto.' },
+  { titulo: 'Guitarra', texto: 'Toco la guitarra.' },
+];
 
 /** Cómo trabajo: hábitos que se pueden comprobar en los repositorios. */
 export const formaDeTrabajo = [

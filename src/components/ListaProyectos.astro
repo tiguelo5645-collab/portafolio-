@@ -40,11 +40,6 @@ const tecnologiasDe = (slug: string) =>
           <li class="proyecto revelar" data-proyecto data-tecnologias={JSON.stringify(tecnologiasDe(p.id))}>
             <div class="proyecto__texto">
               <p class="proyecto__area">
-                {pos && (
-                  <span class="proyecto__dorsal" aria-hidden="true">
-                    {pos.dorsal}
-                  </span>
-                )}
                 <span>{pos ? `${pos.puesto} · ${p.data.area}` : p.data.area}</span>
               </p>
               <h3 class="proyecto__nombre">
@@ -176,19 +171,6 @@ const tecnologiasDe = (slug: string) =>
     color: var(--tinta-suave);
     font-size: 0.875rem;
     font-weight: 550;
-  }
-
-  /* El dorsal del puesto en la cancha: la misma ficha azul de la pizarra, en pequeño. */
-  .proyecto__dorsal {
-    display: grid;
-    place-items: center;
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 50%;
-    background: var(--accion);
-    color: var(--sobre-accion);
-    font-size: 0.75rem;
-    font-weight: 800;
   }
 
   .proyecto__nombre {

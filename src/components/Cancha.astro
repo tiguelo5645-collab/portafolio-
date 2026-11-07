@@ -73,7 +73,7 @@ const pct = (x: number, y: number) => `left:${x}%;top:${(y / 140) * 100}%`;
       data-y={jugador.y}
       style={pct(jugador.x, jugador.y)}
       aria-hidden="true"
-      title="Arrástrame"
+      title="Se puede arrastrar"
     >
       10
     </div>
@@ -122,7 +122,8 @@ const pct = (x: number, y: number) => `left:${x}%;top:${(y / 140) * 100}%`;
     )}
   </figcaption>
   <p class="pizarra__ayuda">
-    Toca una posición para ver el proyecto que juega ahí. Yo juego de 10: conecto todo.
+    Cada proyecto ocupa una posición; elige una para verlo. En el centro estoy yo, el 10, que conecta las
+    partes.
   </p>
 </figure>
 
